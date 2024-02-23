@@ -35,8 +35,6 @@ public class AccountService implements IAccountService {
         var optionalCustomer = customerRepository.findByMobileNumber(customerDTO.getMobileNumber());
         if (optionalCustomer.isPresent())
             throw new CustomerAlreadyExistException("Costumer already registered with the same mobile number: " + customerDTO.getMobileNumber());
-        customer.setCreatedAt(LocalDateTime.now());
-        customer.setCreatedBy("Someone");
         var savedCustomer = customerRepository.save(customer);
         accountRepository.save(createNewAccount(savedCustomer));
     }
@@ -50,8 +48,6 @@ public class AccountService implements IAccountService {
         newAccount.setAccountNumber(randomAccNumber);
         newAccount.setAccountType(AccountConstants.SAVINGS);
         newAccount.setBranchAddress(AccountConstants.ADDRESS);
-        newAccount.setCreatedAt(LocalDateTime.now());
-        newAccount.setCreatedBy("Someone");
         return newAccount;
     }
 
@@ -77,8 +73,6 @@ public class AccountService implements IAccountService {
             Account account = accountRepository.findById(accountDTO.getAccountNumber()).orElseThrow(
                     () -> new ResourceNotFoundException("Account", "AccountNumber", accountDTO.getAccountNumber().toString())
             );
-            account.setUpdatedAt(LocalDateTime.now());
-            account.setUpdatedBy("Someone");
             accountRepository.save(AccountMapper.mapToAccount(accountDTO, account));
 
             Long customerId = account.getCustomerId();
