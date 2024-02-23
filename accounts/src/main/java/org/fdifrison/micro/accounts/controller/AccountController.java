@@ -2,7 +2,6 @@ package org.fdifrison.micro.accounts.controller;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
 import org.fdifrison.micro.accounts.constants.AccountConstants;
 import org.fdifrison.micro.accounts.dto.CustomerDTO;
 import org.fdifrison.micro.accounts.dto.ResponseDTO;

@@ -14,7 +14,6 @@ import org.fdifrison.micro.accounts.repository.CustomerRepository;
 import org.fdifrison.micro.accounts.service.IAccountService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Random;
 
 @Service
