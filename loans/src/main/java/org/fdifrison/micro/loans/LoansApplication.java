@@ -1,4 +1,4 @@
-package org.fdifrison.micro.cards;
+package org.fdifrison.micro.loans;
 
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -13,8 +13,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")
 @OpenAPIDefinition(
         info = @Info(
-                title = "Cards microservice REST API Documentation",
-                description = "Cards microservice REST API Documentation",
+                title = "Loans microservice REST API Documentation",
+                description = "Loans microservice REST API Documentation",
                 version = "v1",
                 contact = @Contact(
                         name = "Fdifrison",
@@ -26,10 +26,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
                 url = "https://github.com/fdifrison/SpringBootMirco"
         )
 )
-public class CardsApplication {
+public class LoansApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CardsApplication.class, args);
+        SpringApplication.run(LoansApplication.class, args);
     }
 
 }
