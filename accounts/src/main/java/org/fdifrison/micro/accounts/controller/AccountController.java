@@ -1,7 +1,6 @@
 package org.fdifrison.micro.accounts.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -39,9 +38,19 @@ public class AccountController {
     @Operation(
             summary = "Create account",
             description = "Create a customer with the associated account")
-    @ApiResponse(
-            responseCode = "201",
-            description = "HTTP Status Created"
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "HTTP Status Created"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDTO.class)
+                    )
+            )
+    }
     )
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> createAccount(@Valid @RequestBody CustomerDTO customerDTO) {
@@ -56,9 +65,19 @@ public class AccountController {
     @Operation(
             summary = "Fetch account",
             description = "Fetch a customer with the associated account given mobile number")
-    @ApiResponse(
-            responseCode = "200",
-            description = "HTTP Status OK"
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDTO.class)
+                    )
+            )
+    }
     )
     @GetMapping("/fetch")
     public ResponseEntity<CustomerDTO> fetchAccountDetails(@RequestParam
@@ -77,11 +96,15 @@ public class AccountController {
                     description = "HTTP Status OK"
             ),
             @ApiResponse(
-                    responseCode = "404",
-                    description = "HTTP Status Not Found",
+                    responseCode = "417",
+                    description = "Expectation Failed"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
                     content = @Content(
-                    schema = @Schema(implementation = ErrorResponseDTO.class)
-            )
+                            schema = @Schema(implementation = ErrorResponseDTO.class)
+                    )
             )
     }
     )
@@ -108,6 +131,10 @@ public class AccountController {
                     description = "HTTP Status OK"
             ),
             @ApiResponse(
+                    responseCode = "417",
+                    description = "Expectation Failed"
+            ),
+            @ApiResponse(
                     responseCode = "500",
                     description = "HTTP Status Internal Server Error",
                     content = @Content(
@@ -127,8 +154,8 @@ public class AccountController {
                     .body(new ResponseDTO(AccountConstants.STATUS_200, AccountConstants.MESSAGE_200));
         } else {
             return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDTO(AccountConstants.STATUS_500, AccountConstants.MESSAGE_417_DELETE));
+                    .status(HttpStatus.EXPECTATION_FAILED)
+                    .body(new ResponseDTO(AccountConstants.STATUS_417, AccountConstants.MESSAGE_417_DELETE));
         }
     }
 
