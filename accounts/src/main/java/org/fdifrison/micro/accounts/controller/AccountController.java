@@ -13,6 +13,7 @@ import org.fdifrison.micro.accounts.dto.CustomerDTO;
 import org.fdifrison.micro.accounts.dto.ErrorResponseDTO;
 import org.fdifrison.micro.accounts.dto.ResponseDTO;
 import org.fdifrison.micro.accounts.service.IAccountService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,8 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
 
     private final IAccountService service;
+    @Value("${build.version}")
+    private String buildVersion;
 
     public AccountController(IAccountService service) {
         this.service = service;
@@ -158,5 +161,30 @@ public class AccountController {
                     .body(new ResponseDTO(AccountConstants.STATUS_417, AccountConstants.MESSAGE_417_DELETE));
         }
     }
+
+    @Operation(
+            summary = "Get Build Info",
+            description = "Get Build information of the currently deployed account microservice")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDTO.class)
+                    )
+            )
+    }
+    )
+    @GetMapping("/build-info")
+    public ResponseEntity<String> getBuildInfo() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(buildVersion);
+    }
+
 
 }
