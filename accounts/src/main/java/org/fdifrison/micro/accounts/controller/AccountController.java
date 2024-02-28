@@ -14,6 +14,7 @@ import org.fdifrison.micro.accounts.dto.ErrorResponseDTO;
 import org.fdifrison.micro.accounts.dto.ResponseDTO;
 import org.fdifrison.micro.accounts.service.IAccountService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +34,11 @@ public class AccountController {
     @Value("${build.version}")
     private String buildVersion;
 
-    public AccountController(IAccountService service) {
+    private final Environment environment;
+
+    public AccountController(IAccountService service, Environment environment) {
         this.service = service;
+        this.environment = environment;
     }
 
 
@@ -184,6 +188,30 @@ public class AccountController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(buildVersion);
+    }
+
+    @Operation(
+            summary = "Get Java Info",
+            description = "Get Java information of the currently deployed account microservice")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDTO.class)
+                    )
+            )
+    }
+    )
+    @GetMapping("/java-version")
+    public ResponseEntity<String> getJavaVersion() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(environment.getProperty("JAVA_HOME"));
     }
 
 
