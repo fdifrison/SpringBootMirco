@@ -14,7 +14,6 @@ import org.fdifrison.micro.accounts.dto.CustomerDTO;
 import org.fdifrison.micro.accounts.dto.ErrorResponseDTO;
 import org.fdifrison.micro.accounts.dto.ResponseDTO;
 import org.fdifrison.micro.accounts.service.IAccountService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -33,12 +32,10 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
 
     private final IAccountService service;
+    private final Environment environment;
+    private final AppContactInfo contactInfo;
     @Value("${build.version}")
     private String buildVersion;
-
-    private final Environment environment;
-
-    private final AppContactInfo contactInfo;
 
     public AccountController(IAccountService service, Environment environment, AppContactInfo contactInfo) {
         this.service = service;
