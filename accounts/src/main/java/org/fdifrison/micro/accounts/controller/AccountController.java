@@ -8,11 +8,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
+import org.fdifrison.micro.accounts.config.AppContactInfo;
 import org.fdifrison.micro.accounts.constants.AccountConstants;
 import org.fdifrison.micro.accounts.dto.CustomerDTO;
 import org.fdifrison.micro.accounts.dto.ErrorResponseDTO;
 import org.fdifrison.micro.accounts.dto.ResponseDTO;
 import org.fdifrison.micro.accounts.service.IAccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -36,9 +38,12 @@ public class AccountController {
 
     private final Environment environment;
 
-    public AccountController(IAccountService service, Environment environment) {
+    private final AppContactInfo contactInfo;
+
+    public AccountController(IAccountService service, Environment environment, AppContactInfo contactInfo) {
         this.service = service;
         this.environment = environment;
+        this.contactInfo = contactInfo;
     }
 
 
@@ -212,6 +217,30 @@ public class AccountController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(environment.getProperty("JAVA_HOME"));
+    }
+
+    @Operation(
+            summary = "Get Contact Info",
+            description = "Get Contact information to be reached for any issue")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDTO.class)
+                    )
+            )
+    }
+    )
+    @GetMapping("/contact-info")
+    public ResponseEntity<AppContactInfo> getContactInfo() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(contactInfo);
     }
 
 
