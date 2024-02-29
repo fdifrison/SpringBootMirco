@@ -2,14 +2,18 @@ spring:
   application:
     name: "config-server"
   profiles:
-    active: native
+    active: git
   cloud:
     config:
       server:
-        native:
-#          search-locations: "classpath:/config"
-          search-locations: "file///:C://Users//gfrison//config"
+        git:
+          uri: "https://github.com/fdifrison/SpringBootMicro-config.git"
+          default-label: "main" # branch we are pointing to
+          timeout: 5
+          clone-on-start: true # try to clone the repo each time
+          force-pull: true # override the local changes, reading always from remote
+          username: "ing.giovanni.frison@gmail.com"
+          password: ${GITHUB_TOKEN} # access token for gitHub repo
 
 server:
   port: 8071
-
