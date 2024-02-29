@@ -1,0 +1,11 @@
+build:
+  version: "1.0"
+
+accounts:
+  message: "Welcome to Fdifrison accounts related ${spring.profiles.active} APIs "
+  contactDetails:
+    name: "F.di.Frison  - Developer"
+    email: "fdifrison@gmail.com"
+  onCallSupport:
+    - (555) 555-1234
+    - (555) 523-1345
