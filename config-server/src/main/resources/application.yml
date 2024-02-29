@@ -14,6 +14,17 @@ spring:
           force-pull: true # override the local changes, reading always from remote
           username: "ing.giovanni.frison@gmail.com"
           password: ${GITHUB_TOKEN} # access token for gitHub repo
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 server:
   port: 8071
