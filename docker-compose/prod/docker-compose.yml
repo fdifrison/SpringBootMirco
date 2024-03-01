@@ -30,7 +30,7 @@ services:
       retries: 10
       start_period: 10s
     environment:
-      GITHUB_TOKEN: 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
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
       SPRING_APPLICATION_NAME: "config-server"
     extends:
       file: common-config.yml
