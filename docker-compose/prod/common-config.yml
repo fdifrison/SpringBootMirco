@@ -3,6 +3,19 @@ services:
     networks:
       - fdifrisonNet
 
+  microservice-db-config:
+    extends:
+      service: network-deploy-service
+    image: mysql
+    healthcheck:
+      test: [ "CMD","mysqladmin","ping","-h","localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
   microservice-base-config:
     extends:
       service: network-deploy-service
@@ -10,8 +23,7 @@ services:
       resources:
         limits:
           memory: 700m
-    environment:
-      SPRING_RABBITMQ_HOST: "rabbit" #override local ms property instead of localhost
+
 
   microservice-config-server-config:
     extends:
@@ -22,3 +34,5 @@ services:
     environment:
       SPRING_CONFIG_IMPORT: "configserver:http://config-server:8071/"
       SPRING_PROFILES_ACTIVE: "prod"
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
