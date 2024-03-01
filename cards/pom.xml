@@ -100,6 +100,11 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-stream-binder-rabbit</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -109,7 +114,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
-						<name>fdifrison/${project.artifactId}:0.0.2</name>
+						<name>fdifrison/${project.artifactId}:0.0.3</name>
 					</image>
 					<excludes>
 						<exclude>
