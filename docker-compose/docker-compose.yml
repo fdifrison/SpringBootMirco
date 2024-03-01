@@ -1,0 +1,60 @@
+services:
+  config-server:
+    image: fdifrison/config-server:0.0.1
+    container_name: config-server-ms
+    ports:
+      - "8071:8071"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - fdifrisonNet
+  accounts:
+    image: fdifrison/accounts:0.0.2
+    container_name: accounts-ms
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - fdifrisonNet
+    environment:
+      SPRING_APPLICATION_NAME: "accounts"
+      SPRING_CONFIG_IMPORT: "configserver:http://config-server:8071" # remove optional, we want it to fail if it cannot connect to config-server
+      SPRING_PROFILES_ACTIVE: "default"
+  loans:
+    image: fdifrison/loans:0.0.2
+    container_name: loans-ms
+    ports:
+      - "8090:8090"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - fdifrisonNet
+    environment:
+      SPRING_APPLICATION_NAME: "loans"
+      SPRING_CONFIG_IMPORT: "configserver:http://config-server:8071" # remove optional, we want it to fail if it cannot connect to config-server
+      SPRING_PROFILES_ACTIVE: "default"
+  cards:
+    image: fdifrison/cards:0.0.2
+    container_name: cards-ms
+    ports:
+      - "9000:9000"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - fdifrisonNet
+    environment:
+      SPRING_APPLICATION_NAME: "cards"
+      SPRING_CONFIG_IMPORT: "configserver:http://config-server:8071" # remove optional, we want it to fail if it cannot connect to config-server
+      SPRING_PROFILES_ACTIVE: "default"
+networks:
+  fdifrisonNet:
+    driver: "bridge"
