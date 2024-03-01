@@ -16,7 +16,7 @@ services:
       service: network-deploy-service
 
   config-server:
-    image: fdifrison/config-server:0.0.1
+    image: fdifrison/config-server:0.0.2
     container_name: config-server-ms
     ports:
       - "8071:8071"
@@ -24,11 +24,14 @@ services:
       rabbit:
         condition: service_healthy
     healthcheck:
-      test: "curl --fail --silent localhost:8071/actuator/health/readiness | grep UP || exit 1"
+      test: "curl --fail --silent localhost:8071/actuator/health/readiness | grep UP || exit 1" # need curl installed on image
       interval: 10s
       timeout: 5s
       retries: 10
       start_period: 10s
+    environment:
+      GITHUB_TOKEN: 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
+      SPRING_APPLICATION_NAME: "config-server"
     extends:
       file: common-config.yml
       service: microservice-base-config
