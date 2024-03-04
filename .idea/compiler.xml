@@ -11,6 +11,7 @@
         <module name="cards" />
         <module name="accounts" />
         <module name="loans" />
+        <module name="service-discovery-agent" />
       </profile>
     </annotationProcessing>
   </component>
@@ -20,6 +21,7 @@
       <module name="cards" options="-parameters" />
       <module name="config-server" options="-parameters" />
       <module name="loans" options="-parameters" />
+      <module name="service-discovery-agent" options="-parameters" />
     </option>
   </component>
 </project>
