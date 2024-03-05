@@ -30,7 +30,7 @@ services:
       service: microservice-db-config
 
   config-server:
-    image: fdifrison/config-server:0.0.3
+    image: fdifrison/config-server:0.0.4
     container_name: config-server-ms
     ports:
       - "8071:8071"
@@ -47,8 +47,28 @@ services:
       file: common-config.yml
       service: microservice-base-config
 
+  service-discovery-agent:
+    image: fdifrison/service-discovery-agent:0.0.4
+    container_name: service-discovery-agent-ms
+    ports:
+      - "8070:8070"
+    healthcheck:
+      test: "curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1" # need curl installed on image
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    depends_on:
+      config-server:
+        condition: "service_healthy"
+    environment:
+      SPRING_APPLICATION_NAME: "service-discovery-agent"
+    extends:
+      file: common-config.yml
+      service: microservice-config-server-config
+
   accounts:
-    image: fdifrison/accounts:0.0.3
+    image: fdifrison/accounts:0.0.4
     container_name: accounts-ms
     ports:
       - "8080:8080"
@@ -57,14 +77,16 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:mysql://accounts-db:3306/accounts-db"
     depends_on:
       accounts-db:
-        condition: service_healthy
+        condition: "service_healthy"
+      service-discovery-agent:
+        condition: "service_healthy"
     extends:
       file: common-config.yml
-      service: microservice-config-server-config
+      service: microservice-eureka-config
 
 
   loans:
-    image: fdifrison/loans:0.0.3
+    image: fdifrison/loans:0.0.4
     container_name: loans-ms
     ports:
       - "8090:8090"
@@ -73,14 +95,16 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:mysql://loans-db:3306/loans-db"
     depends_on:
       loans-db:
-        condition: service_healthy
+        condition: "service_healthy"
+      service-discovery-agent:
+        condition: "service_healthy"
     extends:
       file: common-config.yml
-      service: microservice-config-server-config
+      service: microservice-eureka-config
 
 
   cards:
-    image: fdifrison/cards:0.0.3
+    image: fdifrison/cards:0.0.4
     container_name: cards-ms
     ports:
       - "9000:9000"
@@ -89,10 +113,12 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:mysql://cards-db:3306/cards-db"
     depends_on:
       cards-db:
-        condition: service_healthy
+        condition: "service_healthy"
+      service-discovery-agent:
+        condition: "service_healthy"
     extends:
       file: common-config.yml
-      service: microservice-config-server-config
+      service: microservice-eureka-config
 
 networks:
   fdifrisonNet:

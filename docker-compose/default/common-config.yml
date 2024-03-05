@@ -24,15 +24,17 @@ services:
         limits:
           memory: 700m
 
-
   microservice-config-server-config:
     extends:
       service: microservice-base-config
-    depends_on:
-      config-server:
-        condition: service_healthy
     environment:
-      SPRING_CONFIG_IMPORT: "configserver:http://config-server:8071/"
+      SPRING_CONFIG_IMPORT: configserver:http://config-server:8071/
       SPRING_PROFILES_ACTIVE: "default"
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+
+  microservice-eureka-config:
+    extends:
+      service: microservice-config-server-config
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-discovery-agent:8070/eureka/
