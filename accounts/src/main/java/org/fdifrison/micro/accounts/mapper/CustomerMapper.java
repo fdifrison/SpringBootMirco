@@ -1,6 +1,7 @@
 package org.fdifrison.micro.accounts.mapper;
 
 import org.fdifrison.micro.accounts.dto.CustomerDTO;
+import org.fdifrison.micro.accounts.dto.external.CustomerDetailsDto;
 import org.fdifrison.micro.accounts.entity.Customer;
 
 
@@ -31,6 +32,18 @@ public class CustomerMapper {
         customerDTO.setMobileNumber(customer.getMobileNumber());
 
         return customerDTO;
+    }
+
+    public static CustomerDetailsDto mapToCustomerDetailDTO(Customer customer, CustomerDetailsDto customerDetailsDto) {
+        if (customer == null) {
+            return null;
+        }
+
+        customerDetailsDto.setName(customer.getName());
+        customerDetailsDto.setEmail(customer.getEmail());
+        customerDetailsDto.setMobileNumber(customer.getMobileNumber());
+
+        return customerDetailsDto;
     }
 
 

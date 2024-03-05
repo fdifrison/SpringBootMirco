@@ -91,9 +91,9 @@ public class LoanController {
     }
     )
     @GetMapping("/fetch")
-    public ResponseEntity<LoanDTO> fetchLoan(@RequestParam
-                                             @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits")
-                                             String mobileNumber) {
+    public ResponseEntity<LoanDTO> fetchLoanDetails(@RequestParam
+                                                    @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits")
+                                                    String mobileNumber) {
         var loan = service.fetchLoan(mobileNumber);
         return ResponseEntity
                 .status(HttpStatus.OK)
