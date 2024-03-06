@@ -10,6 +10,7 @@
         <option value="$PROJECT_DIR$/config-server/pom.xml" />
         <option value="$PROJECT_DIR$/accounts/src/service-discovery-agent/pom.xml" />
         <option value="$PROJECT_DIR$/service-discovery-agent/pom.xml" />
+        <option value="$PROJECT_DIR$/cards/gateway-server/pom.xml" />
       </list>
     </option>
   </component>

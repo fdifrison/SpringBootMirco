@@ -6,8 +6,6 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.fdifrison.micro.accounts.dto.external.CardDTO;
-import org.fdifrison.micro.accounts.dto.external.LoanDTO;
 
 @Data
 @Schema(

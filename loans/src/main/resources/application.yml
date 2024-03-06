@@ -48,4 +48,4 @@ info:
   app:
     name: ${spring.application.name}
     description: "Fdifrison Bank Loans ms"
-    version: 0.0.4
+    version: 0.0.5
