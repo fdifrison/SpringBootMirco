@@ -14,6 +14,8 @@ import org.fdifrison.micro.loans.dto.ErrorResponseDTO;
 import org.fdifrison.micro.loans.dto.LoanDTO;
 import org.fdifrison.micro.loans.dto.ResponseDTO;
 import org.fdifrison.micro.loans.service.ILoanService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 @Validated
 public class LoanController {
+
+    private final static Logger logger = LoggerFactory.getLogger(LoanController.class);
 
     private final ILoanService service;
     private final Environment environment;
@@ -91,9 +95,12 @@ public class LoanController {
     }
     )
     @GetMapping("/fetch")
-    public ResponseEntity<LoanDTO> fetchLoanDetails(@RequestParam
+    public ResponseEntity<LoanDTO> fetchLoanDetails(@RequestHeader
+                                                    String correlationId,
+                                                    @RequestParam
                                                     @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits")
                                                     String mobileNumber) {
+        logger.debug("fdifrison-correlation-id found: {}", correlationId);
         var loan = service.fetchLoan(mobileNumber);
         return ResponseEntity
                 .status(HttpStatus.OK)

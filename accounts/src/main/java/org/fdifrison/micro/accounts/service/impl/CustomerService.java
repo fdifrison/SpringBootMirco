@@ -27,7 +27,7 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public CustomerDetailsDto fetchCustomerDetails(String mobileNumber) {
+    public CustomerDetailsDto fetchCustomerDetails(String mobileNumber, String correlationId) {
         var customer = customerRepository.findByMobileNumber(mobileNumber)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Customer", "mobileNumber", mobileNumber)
@@ -36,8 +36,8 @@ public class CustomerService implements ICustomerService {
                 () -> new ResourceNotFoundException("Account", "customerId", customer.getCustomerId().toString())
         );
 
-        var loans = loansFeignClient.fetchLoansDetails(mobileNumber).getBody();
-        var cards = cardsFeignClient.fetchCardDetails(mobileNumber).getBody();
+        var loans = loansFeignClient.fetchLoansDetails(correlationId, mobileNumber).getBody();
+        var cards = cardsFeignClient.fetchCardDetails(correlationId, mobileNumber).getBody();
 
         var customerDetails = CustomerMapper.mapToCustomerDetailDTO(customer, new CustomerDetailsDto());
 

@@ -4,12 +4,13 @@ import org.fdifrison.micro.accounts.dto.external.LoanDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient("loans")
 public interface LoansFeignClient {
 
     @GetMapping(value = "api/fetch", consumes = "application/json")
-    ResponseEntity<LoanDTO> fetchLoansDetails(@RequestParam String mobileNumber);
+    ResponseEntity<LoanDTO> fetchLoansDetails(@RequestHeader String correlationId, @RequestParam String mobileNumber);
 
 }

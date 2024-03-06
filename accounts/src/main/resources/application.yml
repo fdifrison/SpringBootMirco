@@ -49,3 +49,10 @@ info:
     name: ${spring.application.name}
     description: "Fdifrison Bank Accounts ms"
     version: 0.0.5
+
+logging:
+  level:
+    org:
+      fdifrison:
+        micro:
+          accounts: DEBUG

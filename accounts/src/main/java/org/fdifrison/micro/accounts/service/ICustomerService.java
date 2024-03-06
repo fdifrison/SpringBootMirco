@@ -4,6 +4,6 @@ import org.fdifrison.micro.accounts.dto.external.CustomerDetailsDto;
 
 public interface ICustomerService {
 
-    CustomerDetailsDto fetchCustomerDetails(String mobileNumber);
+    CustomerDetailsDto fetchCustomerDetails(String mobileNumber, String correlationId);
 
 }
