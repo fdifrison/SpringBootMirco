@@ -48,8 +48,8 @@ services:
       service: microservice-base-config
 
   service-discovery-agent:
-    image: fdifrison/config-server:0.0.5
-    container_name: config-server-ms
+    image: fdifrison/service-discovery-agent:0.0.5
+    container_name: service-discovery-agent-ms
     ports:
       - "8070:8070"
     healthcheck:
@@ -58,6 +58,9 @@ services:
       timeout: 5s
       retries: 10
       start_period: 10s
+    depends_on:
+      config-server:
+        condition: "service_healthy"
     environment:
       SPRING_APPLICATION_NAME: "service-discovery-agent"
     extends:
@@ -69,12 +72,20 @@ services:
     container_name: accounts-ms
     ports:
       - "8080:8080"
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health/readiness | grep UP || exit 1" # need curl installed on image
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     environment:
       SPRING_APPLICATION_NAME: "accounts"
       SPRING_DATASOURCE_URL: "jdbc:mysql://accounts-db:3306/accounts-db"
     depends_on:
       accounts-db:
-        condition: service_healthy
+        condition: "service_healthy"
+      service-discovery-agent:
+        condition: "service_healthy"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
@@ -85,12 +96,20 @@ services:
     container_name: loans-ms
     ports:
       - "8090:8090"
+    healthcheck:
+      test: "curl --fail --silent localhost:8090/actuator/health/readiness | grep UP || exit 1" # need curl installed on image
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     environment:
       SPRING_APPLICATION_NAME: "loans"
       SPRING_DATASOURCE_URL: "jdbc:mysql://loans-db:3306/loans-db"
     depends_on:
       loans-db:
-        condition: service_healthy
+        condition: "service_healthy"
+      service-discovery-agent:
+        condition: "service_healthy"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
@@ -101,12 +120,38 @@ services:
     container_name: cards-ms
     ports:
       - "9000:9000"
+    healthcheck:
+      test: "curl --fail --silent localhost:9000/actuator/health/readiness | grep UP || exit 1" # need curl installed on image
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     environment:
       SPRING_APPLICATION_NAME: "cards"
       SPRING_DATASOURCE_URL: "jdbc:mysql://cards-db:3306/cards-db"
     depends_on:
       cards-db:
-        condition: service_healthy
+        condition: "service_healthy"
+      service-discovery-agent:
+        condition: "service_healthy"
+    extends:
+      file: common-config.yml
+      service: microservice-eureka-config
+
+  gateway-server:
+    image: fdifrison/gateway-server:0.0.5
+    container_name: gateway-server-ms
+    ports:
+      - "8072:8072"
+    environment:
+      SPRING_APPLICATION_NAME: "gateway-server"
+    depends_on:
+      cards:
+        condition: "service_healthy"
+      loans:
+        condition: "service_healthy"
+      accounts:
+        condition: "service_healthy"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
