@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDateTime;
 
+import static org.springframework.cloud.gateway.support.RouteMetadataUtils.CONNECT_TIMEOUT_ATTR;
+import static org.springframework.cloud.gateway.support.RouteMetadataUtils.RESPONSE_TIMEOUT_ATTR;
+
 @SpringBootApplication
 public class GatewayServerApplication {
 
@@ -24,6 +27,9 @@ public class GatewayServerApplication {
                                 .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
                                 .circuitBreaker(config -> config.setName("accountsCircuitBreaker")
                                         .setFallbackUri("forward:/contactSupport")))
+                        .metadata(RESPONSE_TIMEOUT_ATTR, 200) // custom way
+                        // to define or override yml configuration for the http timeout config
+                        .metadata(CONNECT_TIMEOUT_ATTR, 200)
                         .uri("lb://ACCOUNTS")) // ms name all CAPS as defined inside the eureka server
                 .route(path -> path.path("/fdifrison/loans/**")
                         .filters(f -> f.rewritePath("/fdifrison/loans/(?<segment>.*)", "/${segment}")

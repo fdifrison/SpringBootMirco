@@ -9,6 +9,9 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true # service name in lowercase
+      httpclient: # will be applied to all requests passing through the gateway
+        connect-timeout: 1000
+        response-timeout: 2s
 
 management:
   endpoints:
