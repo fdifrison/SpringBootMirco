@@ -29,9 +29,9 @@ public class GatewayServerApplication {
                                 .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
                                 .circuitBreaker(config -> config.setName("accountsCircuitBreaker")
                                         .setFallbackUri("forward:/contactSupport")))
-                        .metadata(RESPONSE_TIMEOUT_ATTR, 200) // custom way
+                        .metadata(RESPONSE_TIMEOUT_ATTR, 800) // custom way
                         // to define or override yml configuration for the http timeout config
-                        .metadata(CONNECT_TIMEOUT_ATTR, 200)
+                        .metadata(CONNECT_TIMEOUT_ATTR, 800)
                         .uri("lb://ACCOUNTS")) // ms name all CAPS as defined inside the eureka server
                 .route(path -> path.path("/fdifrison/loans/**")
                         .filters(f -> f.rewritePath("/fdifrison/loans/(?<segment>.*)", "/${segment}")

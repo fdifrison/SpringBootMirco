@@ -1,5 +1,6 @@
 package org.fdifrison.micro.accounts.controller;
 
+import io.github.resilience4j.retry.annotation.Retry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,6 +15,8 @@ import org.fdifrison.micro.accounts.dto.CustomerDTO;
 import org.fdifrison.micro.accounts.dto.ErrorResponseDTO;
 import org.fdifrison.micro.accounts.dto.ResponseDTO;
 import org.fdifrison.micro.accounts.service.IAccountService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -30,6 +33,8 @@ import org.springframework.web.bind.annotation.*;
         description = "Create, Update, Fetch and Delete accounts details"
 )
 public class AccountController {
+
+    private final static Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     private final IAccountService service;
     private final Environment environment;
@@ -185,11 +190,21 @@ public class AccountController {
             )
     }
     )
+    @Retry(name = "getBuildInfo", fallbackMethod = "getBuildInfoFallback")
     @GetMapping("/build-info")
     public ResponseEntity<String> getBuildInfo() {
+        logger.debug("getBuildInfo invoked");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(buildVersion);
+    }
+
+        // we need the same signature in the fallback method + a Throwable
+    public ResponseEntity<String> getBuildInfoFallback(Throwable throwable) {
+        logger.debug("getBuildInfoFallback invoked");
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("fall-back-build-info");
     }
 
     @Operation(
