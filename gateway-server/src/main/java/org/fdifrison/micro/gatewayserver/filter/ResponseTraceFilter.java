@@ -34,7 +34,7 @@ public class ResponseTraceFilter {
                             logger.debug("Updated the correlation id to the outbound headers: {}", correlationId);
                             // and setting the same correlation-id into the response so that these can be linked together
                             // later on if we need to debug or whatnot
-                            exchange.getResponse().getHeaders().add(FilterUtility.CORRELATION_ID, correlationId);
+                            exchange.getResponse().getHeaders().addIfAbsent(FilterUtility.CORRELATION_ID, correlationId);
                         }
                 ));
     }
