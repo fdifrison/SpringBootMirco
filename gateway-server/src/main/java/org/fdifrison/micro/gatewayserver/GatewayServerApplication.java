@@ -21,7 +21,8 @@ public class GatewayServerApplication {
         return builder.routes()
                 .route(path -> path.path("/fdifrison/accounts/**")
                         .filters(f -> f.rewritePath("/fdifrison/accounts/(?<segment>.*)", "/${segment}")
-                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+                                .circuitBreaker(config -> config.setName("accountsCircuitBreaker")))
                         .uri("lb://ACCOUNTS")) // ms name all CAPS as defined inside the eureka server
                 .route(path -> path.path("/fdifrison/loans/**")
                         .filters(f -> f.rewritePath("/fdifrison/loans/(?<segment>.*)", "/${segment}")

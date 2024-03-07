@@ -22,6 +22,18 @@ management:
     gateway:
       enabled: true
 
+# configuration for circuitbreaker filter
+resilience4j:
+  circuitbreaker:
+    configs:
+      default: # name of the circuitbreaker if we need to differentiate the behavior
+        sliding-window-size: 10 # how many requests the filter has to monitor at least before taking any decision
+        permitted-number-of-calls-in-half-open-state: 2 # allows 2 requests in half-open state
+        failure-rate-threshold: 50 # if at least 50% of my requests are failing -> move to open state
+        wait-duration-in-open-state:
+          seconds: 10
+
+
 
 # info shown at eureka dashboard
 info:
@@ -37,3 +49,4 @@ logging:
       fdifrison:
         micro:
          gatewayserver: DEBUG
+
