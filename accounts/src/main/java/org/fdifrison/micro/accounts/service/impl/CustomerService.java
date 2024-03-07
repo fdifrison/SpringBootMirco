@@ -36,14 +36,17 @@ public class CustomerService implements ICustomerService {
                 () -> new ResourceNotFoundException("Account", "customerId", customer.getCustomerId().toString())
         );
 
-        var loans = loansFeignClient.fetchLoansDetails(correlationId, mobileNumber).getBody();
-        var cards = cardsFeignClient.fetchCardDetails(correlationId, mobileNumber).getBody();
+        var loans = loansFeignClient.fetchLoansDetails(correlationId, mobileNumber);
+        var cards = cardsFeignClient.fetchCardDetails(correlationId, mobileNumber);
 
         var customerDetails = CustomerMapper.mapToCustomerDetailDTO(customer, new CustomerDetailsDto());
 
         customerDetails.setAccountDTO(AccountMapper.mapToAccountDTO(account));
-        customerDetails.setLoanDTO(loans);
-        customerDetails.setCardDTO(cards);
+
+        // We have implemented the Feign fall back to return null in case of an open circuitbreaker therefore,
+        // we need to check for null-pointers
+        customerDetails.setLoanDTO(loans != null ? loans.getBody() : null);
+        customerDetails.setCardDTO(cards != null ? cards.getBody(): null);
 
         return customerDetails;
     }
