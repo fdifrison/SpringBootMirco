@@ -16,10 +16,12 @@ public class CustomerService implements ICustomerService {
 
     private final AccountRepository accountRepository;
     private final CustomerRepository customerRepository;
+    
     private final CardsFeignClient cardsFeignClient;
     private final LoansFeignClient loansFeignClient;
 
-    public CustomerService(AccountRepository accountRepository, CustomerRepository customerRepository, CardsFeignClient cardsFeignClient, LoansFeignClient loansFeignClient) {
+    public CustomerService(AccountRepository accountRepository, CustomerRepository customerRepository,
+                           CardsFeignClient cardsFeignClient, LoansFeignClient loansFeignClient) {
         this.accountRepository = accountRepository;
         this.customerRepository = customerRepository;
         this.cardsFeignClient = cardsFeignClient;
