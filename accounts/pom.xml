@@ -104,7 +104,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <image>
-                        <name>fdifrison/${project.artifactId}:0.0.7</name>
+                        <name>fdifrison/${project.artifactId}:0.0.6</name>
                     </image>
                     <excludes>
                         <exclude>
@@ -120,7 +120,7 @@
                 <version>3.4.0</version>
                 <configuration>
                     <to>
-                        <image>fdifrison/${project.artifactId}:0.0.7</image>
+                        <image>fdifrison/${project.artifactId}:0.0.6</image>
                     </to>
                 </configuration>
             </plugin>
