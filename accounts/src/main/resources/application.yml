@@ -76,6 +76,12 @@ resilience4j:
 #          - We can also define a set of exception that we don't want to consider in the retry behavior
 #        retry-exceptions:
 #          - We can instead define for which exception perform the retries
+  ratelimiter:
+    configs:
+      default:
+        timeoutDuration: 1000
+        limitRefreshPeriod: 5000
+        limitForPeriod: 1
 
 
 
