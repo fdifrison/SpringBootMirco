@@ -36,6 +36,9 @@ management:
   info: # espose the ms info
     env:
       enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 endpoints:
   shutdown:

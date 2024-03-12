@@ -30,6 +30,9 @@ management:
   endpoint:
     gateway:
       enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 # configuration for circuitbreaker filter
 resilience4j:

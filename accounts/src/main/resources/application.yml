@@ -41,6 +41,9 @@ management:
   info: # espose the ms info
     env:
       enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 # shutdown endpoint to kill a ms process from outside intellij
 endpoints:
