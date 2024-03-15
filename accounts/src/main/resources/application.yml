@@ -102,4 +102,7 @@ logging:
       fdifrison:
         micro:
           accounts: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]" # info inserted at runtime
+    # %5p leaves some space for openTelemetry to add a description
 
