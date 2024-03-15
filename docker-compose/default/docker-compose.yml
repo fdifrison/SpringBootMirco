@@ -42,7 +42,7 @@ services:
       service: microservice-base-config
 
   config-server:
-    image: fdifrison/config-server:0.0.7
+    image: fdifrison/config-server:0.0.8
     container_name: config-server-ms
     ports:
       - "8071:8071"
@@ -60,7 +60,7 @@ services:
       service: microservice-base-config
 
   service-discovery-agent:
-    image: fdifrison/service-discovery-agent:0.0.7
+    image: fdifrison/service-discovery-agent:0.0.8
     container_name: service-discovery-agent-ms
     ports:
       - "8070:8070"
@@ -80,7 +80,7 @@ services:
       service: microservice-config-server-config
 
   accounts:
-    image: fdifrison/accounts:0.0.7
+    image: fdifrison/accounts:0.0.8
     container_name: accounts-ms
     ports:
       - "8080:8080"
@@ -104,7 +104,7 @@ services:
 
 
   loans:
-    image: fdifrison/loans:0.0.7
+    image: fdifrison/loans:0.0.8
     container_name: loans-ms
     ports:
       - "8090:8090"
@@ -128,7 +128,7 @@ services:
 
 
   cards:
-    image: fdifrison/cards:0.0.7
+    image: fdifrison/cards:0.0.8
     container_name: cards-ms
     ports:
       - "9000:9000"
@@ -151,7 +151,7 @@ services:
       service: microservice-eureka-config
 
   gateway-server:
-    image: fdifrison/gateway-server:0.0.7
+    image: fdifrison/gateway-server:0.0.8
     container_name: gateway-server-ms
     ports:
       - "8072:8072"
