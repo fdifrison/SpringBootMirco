@@ -11,7 +11,7 @@ services:
       test: [ "CMD","mysqladmin","ping","-h","localhost" ]
       interval: 10s
       timeout: 5s
-      retries: 10
+      retries: 20
       start_period: 10s
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -23,6 +23,10 @@ services:
       resources:
         limits:
           memory: 700m
+    environment:
+      JAVA_TOOL_OPTIONS: "-javaagent:/app/libs/opentelemetry-javaagent-1.32.0.jar" # we have defined the dependency inside the pom
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4317 # opentelemetry will send data to tempo
+      OTEL_METRICS_EXPORTER: none # we use prometheus
 
   microservice-config-server-config:
     extends:
