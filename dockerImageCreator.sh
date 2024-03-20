@@ -45,3 +45,11 @@ mvn clean install -DskipTests
 mvn compile jib:dockerBuild -DskipTests
 
 cd ..
+
+cd message || exit
+
+mvn clean install -DskipTests
+
+mvn compile jib:dockerBuild -DskipTests
+
+cd ..

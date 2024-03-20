@@ -31,4 +31,9 @@ cd ..
 cd service-discovery-agent || exit
 
 docker push docker.io/fdifrison/service-discovery-agent:0.0.10
+
 cd ..
+
+cd message || exit
+
+docker push docker.io/fdifrison/message:0.0.10

@@ -1,5 +1,21 @@
 services:
 
+  rabbit:
+    image: rabbitmq:3.13-management
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+
   keycloak:
     image: quay.io/keycloak/keycloak:24.0.1
     container_name: keycloak
@@ -107,10 +123,13 @@ services:
       SPRING_APPLICATION_NAME: "accounts"
       SPRING_DATASOURCE_URL: "jdbc:mysql://accounts-db:3306/accounts-db"
       OTEL_SERVICE_NAME: "accounts"
+      SPRING_RABBITMQ_HOST: "rabbit"
     depends_on:
       accounts-db:
         condition: "service_healthy"
       service-discovery-agent:
+        condition: "service_healthy"
+      rabbit:
         condition: "service_healthy"
     extends:
       file: common-config.yml
@@ -383,6 +402,18 @@ services:
       interval: 20s
       timeout: 5s
       retries: 5
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+
+  message:
+    image: "fdifrison/message:0.0.10"
+    container_name: message-ms
+    depends_on:
+      rabbit:
+        condition: service_healthy
+    environment:
+      SPRING_RABBITMQ_HOST: "rabbit"
     extends:
       file: common-config.yml
       service: network-deploy-service
