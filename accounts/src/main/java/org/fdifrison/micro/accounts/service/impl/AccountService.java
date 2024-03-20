@@ -2,6 +2,7 @@ package org.fdifrison.micro.accounts.service.impl;
 
 import org.fdifrison.micro.accounts.constants.AccountConstants;
 import org.fdifrison.micro.accounts.dto.AccountDTO;
+import org.fdifrison.micro.accounts.dto.AccountMsgDto;
 import org.fdifrison.micro.accounts.dto.CustomerDTO;
 import org.fdifrison.micro.accounts.entity.Account;
 import org.fdifrison.micro.accounts.entity.Customer;
@@ -12,6 +13,9 @@ import org.fdifrison.micro.accounts.mapper.CustomerMapper;
 import org.fdifrison.micro.accounts.repository.AccountRepository;
 import org.fdifrison.micro.accounts.repository.CustomerRepository;
 import org.fdifrison.micro.accounts.service.IAccountService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -19,13 +23,18 @@ import java.util.Random;
 @Service
 public class AccountService implements IAccountService {
 
+    private final static Logger logger = LoggerFactory.getLogger(AccountService.class);
+
     private final AccountRepository accountRepository;
     private final CustomerRepository customerRepository;
 
+    private final StreamBridge streamBridge;
 
-    public AccountService(AccountRepository accountRepository, CustomerRepository customerRepository) {
+
+    public AccountService(AccountRepository accountRepository, CustomerRepository customerRepository, StreamBridge streamBridge) {
         this.accountRepository = accountRepository;
         this.customerRepository = customerRepository;
+        this.streamBridge = streamBridge;
     }
 
     @Override
@@ -35,7 +44,15 @@ public class AccountService implements IAccountService {
         if (optionalCustomer.isPresent())
             throw new CustomerAlreadyExistException("Costumer already registered with the same mobile number: " + customerDTO.getMobileNumber());
         var savedCustomer = customerRepository.save(customer);
-        accountRepository.save(createNewAccount(savedCustomer));
+        var savedAccount = accountRepository.save(createNewAccount(savedCustomer));
+        sendCommunication(savedAccount, savedCustomer);
+    }
+
+    private void sendCommunication(Account account, Customer customer) {
+        var accountMsgDTO = new AccountMsgDto(account.getAccountNumber(), customer.getName(), customer.getEmail(), customer.getMobileNumber());
+        logger.info("Sending communication request for: {}", accountMsgDTO);
+        var result = streamBridge.send("sendCommunication-out-0", accountMsgDTO);
+        logger.info("Communication request processed correctly? -> {}", result);
     }
 
 
