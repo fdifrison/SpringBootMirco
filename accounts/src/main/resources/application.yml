@@ -12,8 +12,13 @@ spring:
       circuitbreaker:
         group:
           enabled: true
+    function:
+      definition: updateCommunication # exact name of the function to let spring cloud generating automatically input and output bindings
     stream:
       bindings:
+        updateCommunication-in-0:
+          destination: communication-sent # same as in the message ms
+          group: ${spring.application.name}
         sendCommunication-out-0: # output binding
           destination: send-communication # exchange name for the binding
   datasource:

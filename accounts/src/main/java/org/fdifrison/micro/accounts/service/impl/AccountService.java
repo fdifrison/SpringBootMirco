@@ -112,4 +112,18 @@ public class AccountService implements IAccountService {
         customerRepository.deleteById(customer.getCustomerId());
         return true;
     }
+
+    @Override
+    public boolean updateCommunicationStatus(Long accountNumber) {
+        boolean isUpdate = false;
+        if (accountNumber != null) {
+            var account = accountRepository.findById(accountNumber).orElseThrow(
+                    () -> new ResourceNotFoundException("Account", "AccountNumber", accountNumber.toString())
+            );
+            account.setCommunicationSw(true);
+            accountRepository.save(account);
+            isUpdate = true;
+        }
+        return isUpdate;
+    }
 }

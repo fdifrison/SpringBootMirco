@@ -12,6 +12,9 @@ spring:
         email-sms-in-0: # binding name following default naming convention (functionsName-input-startingPosition)
           destination: send-communication # name of the queue in RabbitMQ
           group: ${spring.application.name} # to avoid random generated name by RabbitMQ
+        email-sms-out-0:
+          destination: communication-sent # spring clouds functions knows
+          # that it can send the output of the email|sms function from this queue
   rabbitmq:
     host: localhost
     port: 5672
