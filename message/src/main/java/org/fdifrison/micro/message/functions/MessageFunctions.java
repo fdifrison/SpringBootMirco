@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.function.Function;
 
+// All this functions will be exposed as rest apis thanks to spring cloud function web
 @Configuration
 public class MessageFunctions {
 
