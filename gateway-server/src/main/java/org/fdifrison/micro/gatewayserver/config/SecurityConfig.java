@@ -25,9 +25,12 @@ public class SecurityConfig {
                         // the permission that comes first can override the ones that following one
                         // exchange -> exchange.anyExchange().authenticated() // authenticate any exchange
                         exchange -> exchange.pathMatchers(HttpMethod.GET).permitAll() // read-only is permitted without authentication
-                                .pathMatchers("/fdifrison/accounts/**").hasRole("ACCOUNTS")
-                                .pathMatchers("/fdifrison/cards/**").hasRole("CARDS")
-                                .pathMatchers("/fdifrison/loans/**").hasRole("LOANS"))
+//                                .pathMatchers("/fdifrison/accounts/**").hasRole("ACCOUNTS")
+//                                .pathMatchers("/fdifrison/cards/**").hasRole("CARDS")
+//                                .pathMatchers("/fdifrison/loans/**").hasRole("LOANS"))
+                                .pathMatchers("/fdifrison/accounts/**").permitAll()
+                                .pathMatchers("/fdifrison/cards/**").permitAll()
+                                .pathMatchers("/fdifrison/loans/**").permitAll())
                 .oauth2ResourceServer(
                         oAuth2ResourceServerSpec -> oAuth2ResourceServerSpec
                                 .jwt(jwtSpec -> jwtSpec.jwtAuthenticationConverter(grantedAuthoritiesExtractor())));
