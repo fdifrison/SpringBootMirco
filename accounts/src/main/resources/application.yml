@@ -12,6 +12,10 @@ spring:
       circuitbreaker:
         group:
           enabled: true
+    stream:
+      bindings:
+        sendCommunication-out-0: # output binding
+          destination: send-communication # exchange name for the binding
   datasource:
     url: jdbc:mysql://localhost:3306/accounts-db
     username: root
@@ -21,6 +25,12 @@ spring:
   sql:
     init:
       mode: always
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    connection-timeout: 10
 
 management:
   endpoints:

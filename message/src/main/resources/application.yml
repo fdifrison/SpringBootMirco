@@ -7,3 +7,14 @@ spring:
   cloud:
     function:
       definition: email|sms
+    stream:
+      bindings:
+        email-sms-in-0: # binding name following default naming convention (functionsName-input-startingPosition)
+          destination: send-communication # name of the queue in RabbitMQ
+          group: ${spring.application.name} # to avoid random generated name by RabbitMQ
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    connection-timeout: 10
