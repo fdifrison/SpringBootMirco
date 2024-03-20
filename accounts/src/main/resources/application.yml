@@ -104,7 +104,7 @@ info:
   app:
     name: ${spring.application.name}
     description: "Fdifrison Bank Accounts ms"
-    version: 0.0.9
+    version: 0.0.10
 
 logging:
   level:

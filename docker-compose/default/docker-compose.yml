@@ -56,7 +56,7 @@ services:
       service: microservice-base-config
 
   config-server:
-    image: fdifrison/config-server:0.0.9
+    image: fdifrison/config-server:0.0.10
     container_name: config-server-ms
     ports:
       - "8071:8071"
@@ -75,7 +75,7 @@ services:
       service: microservice-base-config
 
   service-discovery-agent:
-    image: fdifrison/service-discovery-agent:0.0.9
+    image: fdifrison/service-discovery-agent:0.0.10
     container_name: service-discovery-agent-ms
     ports:
       - "8070:8070"
@@ -95,7 +95,7 @@ services:
       service: microservice-config-server-config
 
   accounts:
-    image: fdifrison/accounts:0.0.9
+    image: fdifrison/accounts:0.0.10
     container_name: accounts-ms
     healthcheck:
       test: "curl --fail --silent localhost:8080/actuator/health/readiness | grep UP || exit 1" # need curl installed on image
@@ -118,7 +118,7 @@ services:
 
 
   loans:
-    image: fdifrison/loans:0.0.9
+    image: fdifrison/loans:0.0.10
     container_name: loans-ms
     healthcheck:
       test: "curl --fail --silent localhost:8090/actuator/health/readiness | grep UP || exit 1" # need curl installed on image
@@ -141,7 +141,7 @@ services:
 
 
   cards:
-    image: fdifrison/cards:0.0.9
+    image: fdifrison/cards:0.0.10
     container_name: cards-ms
     healthcheck:
       test: "curl --fail --silent localhost:9000/actuator/health/readiness | grep UP || exit 1" # need curl installed on image
@@ -163,7 +163,7 @@ services:
       service: microservice-eureka-config
 
   gateway-server:
-    image: fdifrison/gateway-server:0.0.9
+    image: fdifrison/gateway-server:0.0.10
     container_name: gateway-server-ms
     ports:
       - "8072:8072"
