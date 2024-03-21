@@ -1,11 +1,4 @@
-kubectl delete -n default deployment keycloak
-kubectl delete -n default deployment fdifrison-configmaps
-kubectl delete -n default deployment config-server-deployment
-kubectl delete -n default deployment service-discovery-agent-deployment
-kubectl delete -n default deployment accounts-deployment
-kubectl delete -n default deployment loans-deployment
-kubectl delete -n default deployment cards-deployment
-kubectl delete -n default deployment gateway-server-deployment
+kubectl delete --all deployments
 
 
 
