@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: accounts
-          image: fdifrison/accounts:0.0.10
+          image: fdifrison/accounts:0.0.11
           ports:
             - containerPort: 8080
           env:

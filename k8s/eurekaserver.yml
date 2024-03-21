@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: service-discovery-agent
-          image: fdifrison/service-discovery-agent:0.0.10
+          image: fdifrison/service-discovery-agent:0.0.11
           ports:
             - containerPort: 8070
           env:

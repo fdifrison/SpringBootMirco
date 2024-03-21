@@ -2,7 +2,7 @@ spring:
   application:
     name: "config-server"
   profiles:
-    active: git
+    active: "default"
   cloud:
     config:
       server:
@@ -12,9 +12,6 @@ spring:
           timeout: 5
           clone-on-start: true # try to clone the repo each time
           force-pull: true # override the local changes, reading always from remote
-          username: "ing.giovanni.frison@gmail.com"
-          password: ${GITHUB_TOKEN} # access token for gitHub repo
-
 management:
   endpoints:
     web:

@@ -7,7 +7,9 @@ Intro to Microservices with SpringBoot
   * Accounts
   * Cards
   * Loans
-* Docker for orchestration and containerization
+* Docker containerization
+* Kubernetes for orchestration (in replacement to Eureka and Config-Server)
+* Helm for K8s management
 * MySQL as RDBMS
 * Security
   * Spring Security

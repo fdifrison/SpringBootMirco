@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: gateway-server
-          image: fdifrison/gateway-server:0.0.10
+          image: fdifrison/gateway-server:0.0.11
           ports:
             - containerPort: 8072
           env:

@@ -58,7 +58,7 @@ info:
   app:
     name: ${spring.application.name}
     description: "Fdifrison Gateway Server ms"
-    version: 0.0.10
+    version: 0.0.11
 
 
 logging:
