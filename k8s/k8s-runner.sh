@@ -1,5 +1,5 @@
-kubectl delete -n default deployment keycloak-deployment
-kubectl delete -n default deployment configmaps-deployment
+kubectl delete -n default deployment keycloak
+kubectl delete -n default deployment fdifrison-configmaps
 kubectl delete -n default deployment config-server-deployment
 kubectl delete -n default deployment service-discovery-agent-deployment
 kubectl delete -n default deployment accounts-deployment
