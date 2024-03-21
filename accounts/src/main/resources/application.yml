@@ -22,14 +22,18 @@ spring:
         sendCommunication-out-0: # output binding
           destination: send-communication # exchange name for the binding
   datasource:
-    url: jdbc:mysql://localhost:3306/accounts-db
-    username: root
-    password: root
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: ''
+  h2:
+    console:
+      enabled: true
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
     show-sql: true
-  sql:
-    init:
-      mode: always
   rabbitmq:
     host: localhost
     port: 5672
@@ -90,10 +94,10 @@ resilience4j:
         wait-duration: 100
         enable-exponential-backoff: true
         exponential-backoff-multiplier: 2
-#        ignore-exceptions:
-#          - We can also define a set of exception that we don't want to consider in the retry behavior
-#        retry-exceptions:
-#          - We can instead define for which exception perform the retries
+  #        ignore-exceptions:
+  #          - We can also define a set of exception that we don't want to consider in the retry behavior
+  #        retry-exceptions:
+  #          - We can instead define for which exception perform the retries
   ratelimiter:
     configs:
       default:
