@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-discovery-agent-deployment
+  labels:
+    app: service-discovery-agent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-discovery-agent
+  template:
+    metadata:
+      labels:
+        app: service-discovery-agent
+    spec:
+      containers:
+        - name: service-discovery-agent
+          image: fdifrison/service-discovery-agent:0.0.10
+          ports:
+            - containerPort: 8070
+          env:
+            - name: SPRING_APPLICATION_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: fdifrison-configmap
+                  key: EUREKA_APPLICATION_NAME
+            - name: SPRING_CONFIG_IMPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: fdifrison-configmap
+                  key: SPRING_CONFIG_IMPORT
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-discovery-agent
+spec:
+  selector:
+    app: service-discovery-agent
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8070
+      targetPort: 8070

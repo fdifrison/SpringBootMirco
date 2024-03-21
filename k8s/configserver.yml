@@ -1,0 +1,35 @@
+# k8s manifest file
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-server-deployment
+  labels:
+    app: config-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: config-server
+  template:
+    metadata:
+      labels:
+        app: config-server
+    spec:
+      containers:
+        - name: config-server
+          image: fdifrison/config-server:0.0.10 # by default, k8s is looking at docker.io
+          ports:
+            - containerPort: 8071
+--- # this indicates to treat this as a separate yml file
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-server
+spec:
+  selector:
+    app: config-server
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8071 # port exposed to the outside world
+      targetPort: 8071 # same as containerPort above
